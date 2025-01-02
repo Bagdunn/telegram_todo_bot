@@ -11,9 +11,11 @@ dependencies:
   # path: ^1.8.0
   flutter:
     sdk: flutter
-  firebase_core: ^latest_version
-  firebase_database: ^latest_version
+  firebase_core: 3.9.0
+  firebase_database: 11.2.0
+  televerse: ^2.1.1
 
 dev_dependencies:
   lints: ^4.0.0
   test: ^1.24.0
+

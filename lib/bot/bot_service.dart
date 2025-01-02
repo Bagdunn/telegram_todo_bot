@@ -1,13 +1,21 @@
 // Map<int, String> userStates = {};
 import 'package:televerse/televerse.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() {
+  dotenv.load();
+  String botToken = dotenv.env['BOT_TOKEN'] ?? '';
   // Створення нового бота за допомогою токену
-  final bot = Bot("7971942023:AAFNuEquBmFZiycNh3-PhMclyIBsfXcEuGA");  // Замініть на свій токен
+  final bot = Bot(botToken);  // Замініть на свій токен
+  var keyboard = InlineKeyboard();
+  keyboard.addWebApp('TEsty', 'https://464c-185-181-36-63.ngrok-free.app');
 
   Map<int, String> userStates = {};
   // Запускаємо бота
   
+  bot.command('start', (ctx) async {
+  await ctx.reply('Натисніть кнопку, щоб відкрити форму редагування фармілки:', replyMarkup: keyboard);}
+  );
 
   // Ініціалізація обробників команд і текстових повідомлень
   bot.command('addfarm', (ctx) async {
@@ -72,4 +80,5 @@ void main() {
   });
 
   bot.start();
+  print('Bot Started');
 }

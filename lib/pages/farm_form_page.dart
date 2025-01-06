@@ -16,6 +16,9 @@ class _FarmFormPageState extends State<FarmFormPage> {
   
   // Періодичність нагадування (вибір з 1-12 годин)
   int reminderPeriod = 1;
+
+  // Інтервал для пропущених завдань
+  int missedTaskInterval = 30;
   
   // Графік (коли буде виконано)
   bool isDaily = false;
@@ -26,19 +29,19 @@ class _FarmFormPageState extends State<FarmFormPage> {
     showDialog(
       context: context,
       builder: (context) {
-        final TextEditingController _userController = TextEditingController();
+        final TextEditingController userController = TextEditingController();
         return AlertDialog(
           title: Text('Додати користувача'),
           content: TextField(
-            controller: _userController,
+            controller: userController,
             decoration: InputDecoration(labelText: 'Введіть ім\'я користувача'),
           ),
           actions: [
             TextButton(
               onPressed: () {
-                if (_userController.text.isNotEmpty) {
+                if (userController.text.isNotEmpty) {
                   setState(() {
-                    users.add(_userController.text);
+                    users.add(userController.text);
                   });
                   Navigator.of(context).pop();
                 }
@@ -81,6 +84,7 @@ class _FarmFormPageState extends State<FarmFormPage> {
         'name': name,
         'link': link,
         'reminderPeriod': reminderPeriod,
+        'missedTaskInterval': missedTaskInterval,
         'isDaily': isDaily,
         'reminderTime': reminderTime?.format(context),
         'users': users,
@@ -156,6 +160,32 @@ class _FarmFormPageState extends State<FarmFormPage> {
                       child: Text("${index + 1} година"),
                     ),
                   ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text("Інтервал для пропущених завдань: "),
+                DropdownButton<int>(
+                  value: missedTaskInterval,
+                  onChanged: (int? newValue) {
+                    setState(() {
+                      missedTaskInterval = newValue!;
+                    });
+                  },
+                  items: [
+                    15,
+                    30,
+                    45,
+                    60,
+                    90,
+                    120,
+                  ].map((value) {
+                    return DropdownMenuItem<int>(
+                      value: value,
+                      child: Text("$value хвилин"),
+                    );
+                  }).toList(),
                 ),
               ],
             ),
